@@ -1,8 +1,25 @@
 const http = require("http");
 
-http.createServer(function( request,response){
-    response.end("Hello NodeJS");
-}).listen(7777, "127.0.0.1",function()
+http.createServer(function(request, response){
+    response.statusCode = 200;
+    response.setHeader("Content-Type", 'text/plain');
+    switch (request.url.split("/")[1].toLowerCase()) {
+        case "second_page":
+            response.text = "Welcome to second page";
+            break;
+        case "index":
+            response.text = "Welcome to index page";
+            break;
+        case "jump":
+            response.text = "Nice page";
+            break;
+        default:
+            response.statusCode = 404;
+            response.text = "Not found"
+            break;
+    }
+    response.end(response.text);
+}).listen(7777, "127.0.0.1", function()
 {
     console.log("Listening on post 7777");
 });
