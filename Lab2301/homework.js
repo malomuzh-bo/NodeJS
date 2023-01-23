@@ -1,16 +1,12 @@
 const http = require("http");
-const address = 'http://localhost:8080/default.htm?year=2017&month=february';
-
+var host = "127.0.0.1";
+var port = 7777;
 http.createServer(function(request, response){
-    const url = require("url");
-    let myUrl = new URL(request.url);
-    let host = myUrl.host;
-    let path = myUrl.href;
-    let search = myUrl.search;
-    console.log(host);
-    console.log(path);
-    console.log(search);
-}).listen(7777, "127.0.0.1", function()
+    var myURL = new URL(request.url.toString(), `https://${host}:${port}/`);
+    response.setHeader('Content-type', 'text/html; charset=utf-8');
+    response.text = "Host: " + myURL.host + "\n" + "Path: " + myURL.pathname + "\n" + "Port: " + myURL.port + "\n" + "Search params: " + myUrl.searchParams;
+    response.end(response.text);
+}).listen(port, host, function()
 {
-    console.log("Listening on post 7777");
+    console.log(`Listening on post ${port}`);
 });
